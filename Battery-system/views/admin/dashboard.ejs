@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-ZL6rWlZn6U6Iw1TxvaXjFq6V5XDBe6zVPcEEn+AsjfpkWbQRSeATos2GU4EfWzYl" crossorigin="anonymous">
+    <link href="./css/style.css" rel="stylesheet"> 
+	<link rel="stylesheet" href="./css/LineIcons.2.0.css">
+   
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+:root {
+	--poppins: 'Poppins', sans-serif;
+	--lato: 'Lato', sans-serif;
+
+	--light: #F9F9F9;
+	--blue: #3C91E6;
+	--light-blue: #CFE8FF;
+	--grey: #eee;
+	--dark-grey: #AAAAAA;
+	--dark: #342E37;
+	--red: #DB504A;
+	--yellow: #FFCE26;
+	--light-yellow: #FFF2C6;
+	--orange: #FD7238;
+	--light-orange: #FFE0D3;
+}
+
+html {
+	overflow-x: hidden;
+}
+
+body.dark {
+	--light: #0C0C1E;
+	--grey: #060714;
+	--dark: #FBFBFB;
+}
+
+body {
+	background: var(--grey);
+	overflow-x: hidden;
+}
+
+
+
+
+
+/* SIDEBAR */
+#sidebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 280px;
+	height: 100%;
+	background: var(--light);
+	z-index: 2000;
+	font-family: var(--lato);
+	transition: .3s ease;
+	overflow-x: hidden;
+	scrollbar-width: none;
+}
+#sidebar::--webkit-scrollbar {
+	display: none;
+}
+#sidebar.hide {
+	width: 60px;
+}
+#sidebar .brand {
+	font-size: 24px;
+	font-weight: 700;
+	height: 56px;
+	display: flex;
+	align-items: center;
+	color: var(--blue);
+	position: sticky;
+	top: 0;
+	left: 0;
+	background: var(--light);
+	z-index: 500;
+	padding-bottom: 20px;
+	box-sizing: content-box;
+}
+#sidebar .brand .bx {
+	min-width: 60px;
+	display: flex;
+	justify-content: center;
+}
+#sidebar .side-menu {
+	width: 100%;
+	margin-top: 48px;
+}
+#sidebar .side-menu li {
+	height: 48px;
+	background: transparent;
+	margin-left: 6px;
+	border-radius: 48px 0 0 48px;
+	padding: 4px;
+}
+#sidebar .side-menu li.active {
+	background: var(--grey);
+	position: relative;
+}
+#sidebar .side-menu li.active::before {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	top: -40px;
+	right: 0;
+	box-shadow: 20px 20px 0 var(--grey);
+	z-index: -1;
+}
+#sidebar .side-menu li.active::after {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	bottom: -40px;
+	right: 0;
+	box-shadow: 20px -20px 0 var(--grey);
+	z-index: -1;
+}
+#sidebar .side-menu li a {
+	width: 100%;
+	height: 100%;
+	background: var(--light);
+	display: flex;
+	align-items: center;
+	border-radius: 48px;
+	font-size: 16px;
+	color: var(--dark);
+	white-space: nowrap;
+	overflow-x: hidden;
+}
+#sidebar .side-menu.top li.active a {
+	color: var(--blue);
+}
+#sidebar.hide .side-menu li a {
+	width: calc(48px - (4px * 2));
+	transition: width .3s ease;
+}
+#sidebar .side-menu li a.logout {
+	color: var(--red);
+}
+#sidebar .side-menu.top li a:hover {
+	color: var(--blue);
+}
+#sidebar .side-menu li a .bx {
+	min-width: calc(60px  - ((4px + 6px) * 2));
+	display: flex;
+	justify-content: center;
+}
+/* SIDEBAR */
+
+
+
+
+
+/* CONTENT */
+#content {
+	position: relative;
+	width: calc(100% - 280px);
+	left: 280px;
+	transition: .3s ease;
+}
+#sidebar.hide ~ #content {
+	width: calc(100% - 60px);
+	left: 60px;
+}
+
+
+
+
+/* NAVBAR */
+#content nav {
+	height: 56px;
+	background: var(--light);
+	padding: 0 24px;
+	display: flex;
+	align-items: center;
+	grid-gap: 24px;
+	font-family: var(--lato);
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+#content nav::before {
+	content: '';
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	bottom: -40px;
+	left: 0;
+	border-radius: 50%;
+	box-shadow: -20px -20px 0 var(--light);
+}
+#content nav a {
+	color: var(--dark);
+}
+#content nav .bx.bx-menu {
+	cursor: pointer;
+	color: var(--dark);
+}
+#content nav .nav-link {
+	font-size: 16px;
+	transition: .3s ease;
+}
+#content nav .nav-link:hover {
+	color: var(--blue);
+}
+#content nav form {
+	max-width: 400px;
+	width: 100%;
+	margin-right: auto;
+}
+#content nav form .form-input {
+	display: flex;
+	align-items: center;
+	height: 36px;
+}
+#content nav form .form-input input {
+	flex-grow: 1;
+	padding: 0 16px;
+	height: 100%;
+	border: none;
+	background: var(--grey);
+	border-radius: 36px 0 0 36px;
+	outline: none;
+	width: 100%;
+	color: var(--dark);
+}
+#content nav form .form-input button {
+	width: 36px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--blue);
+	color: var(--light);
+	font-size: 18px;
+	border: none;
+	outline: none;
+	border-radius: 0 36px 36px 0;
+	cursor: pointer;
+}
+#content nav .btn-rounded  {
+	height: 36px;
+	padding: 0 16px;
+	border-radius: 36px;
+	background: var(--blue);
+	color: var(--light);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#content nav .notification {
+	font-size: 20px;
+	position: relative;
+}
+#content nav .notification .num {
+	position: absolute;
+	top: -6px;
+	right: -6px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid var(--light);
+	background: var(--red);
+	color: var(--light);
+	font-weight: 700;
+	font-size: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#content nav .profile img {
+	width: 36px;
+	height: 36px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+#content nav .switch-mode {
+	display: block;
+	min-width: 50px;
+	height: 25px;
+	border-radius: 25px;
+	background: var(--grey);
+	cursor: pointer;
+	position: relative;
+}
+#content nav .switch-mode::before {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	bottom: 2px;
+	width: calc(25px - 4px);
+	background: var(--blue);
+	border-radius: 50%;
+	transition: all .3s ease;
+}
+#content nav #switch-mode:checked + .switch-mode::before {
+	left: calc(100% - (25px - 4px) - 2px);
+}
+/* NAVBAR */
+
+
+
+
+
+/* MAIN */
+.container {
+	/* margin-left: 250px;  */
+	/* margin-top: 20px;  */
+	padding: 30px;
+	border-radius: 20px;
+	box-shadow: 0 0 0 0 hwb(0 0% 100% / 0.1);
+  
+
+   }
+
+#content main {
+	width: 100%;
+	padding: 36px 24px;
+	font-family: var(--poppins);
+	max-height: calc(100vh - 56px);
+	overflow-y: auto;
+}
+#content main .head-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	grid-gap: 16px;
+	flex-wrap: wrap;
+}
+#content main .head-title .left h1 {
+	font-size: 36px;
+	font-weight: 600;
+	margin-bottom: 10px;
+	color: var(--dark);
+}
+#content main .head-title .left .breadcrumb {
+	display: flex;
+	align-items: center;
+	grid-gap: 16px;
+}
+#content main .head-title .left .breadcrumb li {
+	color: var(--dark);
+}
+#content main .head-title .left .breadcrumb li a {
+	color: var(--dark-grey);
+	pointer-events: none;
+}
+#content main .head-title .left .breadcrumb li a.active {
+	color: var(--blue);
+	pointer-events: unset;
+}
+#content main .head-title .btn-download {
+	height: 36px;
+	padding: 0 16px;
+	border-radius: 36px;
+	background: var(--blue);
+	color: var(--light);
+	display: flex;
+	justify-content
+	: center;
+	align-items: center;
+	grid-gap: 10px;
+	font-weight: 500;
+}
+
+#content main .box-info {
+	display: flex;
+	grid: auto auto / auto auto auto auto; 
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	grid-gap: 24px;
+	margin-top: 36px;
+	justify-items: center;
+}
+#content main .box-info li {
+	padding: 24px;
+	background: var(--light);
+	border-radius: 20px;
+	display: flex;
+	align-items: center;
+	grid-gap: 10px;
+	width: 100%;
+}
+#content main .box-info li .bx {
+	width: 60px;
+	height: 60px;
+	border-radius: 10px;
+	font-size: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#content main .box-info li:nth-child(1):hover{
+	background: var(--light-blue);
+	color: var(--blue);
+}
+#content main .box-info li:nth-child(2):hover {
+	background: var(--light-yellow);
+	color: var(--yellow);
+}
+#content main .box-info li:nth-child(3):hover {
+	background: var(--light-orange);
+	color: var(--orange);
+}
+#content main .box-info li:nth-child(4):hover {
+	background: var(--light-red);
+	color: var(--red);
+}
+#content main .box-info li:nth-child(1) .bx {
+	background: var(--light-blue);
+	color: var(--blue);
+}
+#content main .box-info li:nth-child(2) .bx {
+	background: var(--light-yellow);
+	color: var(--yellow);
+}
+#content main .box-info li:nth-child(3) .bx {
+	background: var(--light-orange);
+	color: var(--orange);
+}
+#content main .box-info li:nth-child(4) .bx {
+	background: var(--light-pink);
+	color: var(--pink);
+}
+#content main .box-info li .text h3 {
+	font-size: 24px;
+	font-weight: 600;
+	color: var(--dark);
+}
+#content main .box-info li .text p {
+	color: var(--dark);	
+}
+
+
+
+
+
+#content main .table-data {
+	display: flex;
+	flex-wrap: wrap;
+	grid-gap: 24px;
+	margin-top: 24px;
+	width: 100%;
+	color: var(--dark);
+}
+#content main .table-data > div {
+	border-radius: 20px;
+	background: var(--light);
+	padding: 24px;
+	overflow-x: auto;
+}
+#content main .table-data .head {
+	display: flex;
+	align-items: center;
+	grid-gap: 16px;
+	margin-bottom: 24px;
+}
+#content main .table-data .head h3 {
+	margin-right: auto;
+	font-size: 24px;
+	font-weight: 600;
+}
+#content main .table-data .head .bx {
+	cursor: pointer;
+}
+
+#content main .table-data .order {
+	flex-grow: 1;
+	flex-basis: 500px;
+}
+#content main .table-data .order table {
+	width: 100%;
+	border-collapse: collapse;
+}
+#content main .table-data .order table th {
+	padding-bottom: 12px;
+	font-size: 13px;
+	text-align: left;
+	border-bottom: 1px solid var(--grey);
+}
+#content main .table-data .order table td {
+	padding: 16px 0;
+}
+#content main .table-data .order table tr td:first-child {
+	display: flex;
+	align-items: center;
+	grid-gap: 12px;
+	padding-left: 6px;
+}
+#content main .table-data .order table td img {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+#content main .table-data .order table tbody tr:hover {
+	background: var(--grey);
+}
+#content main .table-data .order table tr td .status {
+	font-size: 10px;
+	padding: 6px 16px;
+	color: var(--light);
+	border-radius: 20px;
+	font-weight: 700;
+}
+#content main .table-data .order table tr td .status.completed {
+	background: var(--blue);
+}
+#content main .table-data .order table tr td .status.process {
+	background: var(--yellow);
+}
+#content main .table-data .order table tr td .status.pending {
+	background: var(--orange);
+}
+
+
+#content main .table-data .todo {
+	flex-grow: 1;
+	flex-basis: 300px;
+}
+#content main .table-data .todo .todo-list {
+	width: 100%;
+}
+#content main .table-data .todo .todo-list li {
+	width: 100%;
+	margin-bottom: 16px;
+	background: var(--grey);
+	border-radius: 10px;
+	padding: 14px 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+#content main .table-data .todo .todo-list li .bx {
+	cursor: pointer;
+}
+#content main .table-data .todo .todo-list li.completed {
+	border-left: 10px solid var(--blue);
+}
+#content main .table-data .todo .todo-list li.not-completed {
+	border-left: 10px solid var(--orange);
+}
+#content main .table-data .todo .todo-list li:last-child {
+	margin-bottom: 0;
+}
+/* MAIN */
+/* CONTENT */
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+	#sidebar {
+		width: 200px;
+	}
+
+	#content {
+		width: calc(100% - 60px);
+		left: 200px;
+	}
+
+	#content nav .nav-link {
+		display: none;
+	}
+}
+
+
+
+
+
+
+@media screen and (max-width: 576px) {
+	#content nav form .form-input input {
+		display: none;
+	}
+
+	#content nav form .form-input button {
+		width: auto;
+		height: auto;
+		background: transparent;
+		border-radius: none;
+		color: var(--dark);
+	}
+
+	#content nav form.show .form-input input {
+		display: block;
+		width: 100%;
+	}
+	#content nav form.show .form-input button {
+		width: 36px;
+		height: 100%;
+		border-radius: 0 36px 36px 0;
+		color: var(--light);
+		background: var(--red);
+	}
+
+	#content nav form.show ~ .notification,
+	#content nav form.show ~ .profile {
+		display: none;
+	}
+
+	#content main .box-info {
+		grid-template-columns: 1fr;
+	}
+
+	#content main .table-data .head {
+		min-width: 420px;
+	}
+	#content main .table-data .order table {
+		min-width: 420px;
+	}
+	#content main .table-data .todo .todo-list {
+		min-width: 420px;
+	}
+}
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+    .dropdown-item:hover {
+        transition: all 0.9s ease-out 0s;
+		background: var(--light-yellow);
+    }
+    #management:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease-out 0s;
+        color: #FF6B6B; 
+    }
+    .login-rounded {
+    border-radius: 5px;
+}
+
+  
+</style>
+<body>
+
+    <!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<i class='bx bxs-smile'></i>
+			<span class="text">AdminFizzaBattery</span>
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My Store</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">Analytics</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Message</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Team</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="/logout" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<!-- <a href="#" class="nav-link">Categories</a> -->
+            <li class="dropdown">
+                <a href="#" class="main-btn btn-rounded account-btn dropdown-toggle" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="d-md-none"><i class="lni lni-user"></i></span>
+                    <span class="d-none d-md-block"id="management">  <i class="fas fa-briefcase mr-1"></i>management</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                    <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="">Categories Management</a></li>
+                    <li><a class="dropdown-item" href="/product">Products Management</a></li>
+                    <li><a class="dropdown-item" href="/feature">Featured Products Management</a></li>
+                    <li><a class="dropdown-item" href="">Recent Products Management</a></li>
+                    <li><a class="dropdown-item" href="/brand">Recommended Products Brands Management</a></li>
+                    <li><a class="dropdown-item" href="/about">About Us Management</a></li>
+                    <li><a class="dropdown-item" href="/blog">Blogs Management</a></li>
+                    <li><a class="dropdown-item" href="/offer">offers Management</a></li>
+                    <li><a class="dropdown-item" href="/testimonial">Testimonials Management</a></li>
+                    <li><a class="dropdown-item" href="/video">Videos Management</a></li>
+					<li><a class="dropdown-item" href="/contact">Contact Us Queries</a></li>
+					<li><a class="dropdown-item" href="/user">User Management</a></li>
+					<li><a class="dropdown-item" href="/receipt">Receipts/Orders Managemen</a></li>
+                </ul>
+            </li>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+
+            <a href="/login" class="login btn-rounded text-white"><i class='bx bxs-log-in-circle'></i>
+                <span class="text">login</span>
+            </a>
+
+			<a href="#" class="notification">
+				<i class='bx bxs-bell text-primary' ></i>
+				<span class="num">0</span>
+			</a>
+			<a href="#" class="profile">
+                <span class="mr-1 d-none d-lg-inline text-dark small"><%= firstName %></span>
+				<img src="">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#" >Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a>
+			</div>
+
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check' ></i>
+					<span class="text">
+						<h3>1020</h3>
+						<p>New Order</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-group' ></i>
+					<span class="text">
+						<h3> totalUsers %</h3>
+						<p>User Logged-in</p>
+					</span>
+				</li>
+                <li>
+					<i class='bx bxs-group' ></i>
+					<span class="text">
+						<h3> visitorCount %</h3>
+						<p>Visitors</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bx-rupee' ></i>
+					<span class="text">
+						<h3>₹2543</h3>
+						<p>Total Sales</p>
+					</span>
+				</li>
+			</ul>
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Orders</h3>
+						<i class='bx bx-search' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>User</th>
+								<th>Date Order</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2024</td>
+								<td><span class="status completed">Completed</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2024</td>
+								<td><span class="status pending">Pending</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2024</td>
+								<td><span class="status process">Process</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2024</td>
+								<td><span class="status pending">Pending</span></td>
+							</tr>
+							<tr>
+								<td>
+									<img src="img/people.png">
+									<p>John Doe</p>
+								</td>
+								<td>01-10-2024</td>
+								<td><span class="status completed">Completed</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="todo">
+					<div class="head">
+						<h3>Todos</h3>
+						<i class='bx bx-plus' ></i>
+						<i class='bx bx-filter' ></i>
+					</div>
+					<ul class="todo-list">
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+						<li class="not-completed">
+							<p>Todo List</p>
+							<i class='bx bx-dots-vertical-rounded' ></i>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+            <!--slider start-->
+            <div class="container mt-4 bg-light">
+                <h2>Head Slider Management</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Category Form -->
+                        <form action="createSlider" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" name="title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea id="description" name="description" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="sliderImage">Select Image</label>
+                                <input type="file" class="form-control-file" id="sliderImage" name="image">
+                            </div>
+                            <div class="form-group">
+                                <label for="button1_text">Button 1 Text:</label>
+                                <input type="text" id="button1_text" name="button1_text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="button1_link">Button 1 Link:</label>
+                                <input type="text" id="button1_link" name="button1_link" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="button2_text">Button 2 Text:</label>
+                                <input type="text" id="button2_text" name="button2_text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="button2_link">Button 2 Link:</label>
+                                <input type="text" id="button2_link" name="button2_link" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Slider</button>
+                        </form>
+                    </div>
+                    <div class="col-md-10">
+                        <!-- Slider Table -->
+                        <table class="table mt-2">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Text 1</th>
+                                    <th>Link 1</th>
+                                    <th>Text 2</th>
+                                    <th>Link 2</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% slides.forEach(slider => { %>
+                                <tr>
+                                    <td><%= slider.id %></td>
+                                    <td><img src="/img/<%= slider.image %>" alt="image" style="max-width: 100px;"></td>
+                                    <td><%= slider.title %></td>
+                                    <td><%= slider.description %></td>
+                                    <td><%= slider.button1_text %></td>
+                                    <td><%= slider.button1_link %></td>
+                                    <td><%= slider.button2_text %></td>
+                                    <td><%= slider.button2_link %></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= slider.id %>" data-item-type="sliderProduct">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="deletion" data-item-id="<%= slider.id %>" data-item-type="slider">Delete</button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!---slider end-->
+
+            <!--slider offers start-->
+            <div class="container mt-4 bg-light">
+                <h2>Head Slider Offer Management</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Category Form -->
+                        <form action="createSliderOffer" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="sliderOfferImage">Select Image</label>
+                                <input type="file" class="form-control-file" id="sliderOfferImage" name="image">
+                            </div>
+                                <div class="form-group">
+                                    <label for="offer_text">Offer Text:</label>
+                                    <input type="text" id="offer_text" name="offer_text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="offer_subtitle">Offer Subtitle:</label>
+                                    <input type="text" id="offer_subtitle" name="offer_subtitle" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="button_text">Button Text:</label>
+                                    <input type="text" id="button_text" name="button_text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="button_link">Button Link:</label>
+                                    <input type="text" id="button_link" name="button_link" class="form-control">
+                                </div>
+                               
+                            <button type="submit" class="btn btn-primary">Add Offer</button>
+                        </form>
+                    </div>
+                    <div class="col-md-10">
+                        <!-- Slider Table -->
+                        <table class="table mt-2">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>0ffer Subtitle</th>
+                                    <th>Image</th>
+                                    <th>Offer Text</th>
+                                    <th>Button Text</th>
+                                    <th>Link</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% slide_offers.forEach(headOffers => { %>
+                                <tr>
+                                    <td><%= headOffers.id %></td>
+                                    <td><%= headOffers.offer_subtitle %></td>
+                                    <td><img src="/img/<%= headOffers.image %>" alt="image" style="max-width: 100px;"></td>
+                                    <td><%= headOffers.offer_text %></td>
+                                    <td><%= headOffers.button_text %></td>
+                                    <td><%= headOffers.button_link %></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= headOffers.id %>" data-item-type="headOffersProduct">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="deletion" data-item-id="<%= headOffers.id %>" data-item-type="head">Delete</button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--slider offers end-->
+
+<!-- categories -->
+<div class="container mt-4 bg-light">
+    <h2>Categories Management</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Category Form -->
+            <form action="createCategory" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" class="form-control" id="categoryName" name="title" placeholder="Enter category name">
+                </div>
+                <div class="form-group">
+                    <label for="categoryQuantity">Quantity</label>
+                    <textarea class="form-control" id="categoryQuantity" name="qty" rows="3" placeholder="Enter quantity"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="categoryImage">Category Image</label>
+                    <input type="file" class="form-control-file" id="categoryImage" name="image">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </form>
+        </div>
+        <div class="col-md-10">
+            <!-- Category Table -->
+            <table class="table mt-2">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% categories.forEach(category => { %>
+                    <tr>
+                        <td><%= category.id %></td>
+                        <td><img src="/img/<%= category.image %>" alt="image" style="max-width: 100px;"></td>
+                        <td><%= category.title %></td>
+                        <td><%= category.qty %></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= category.id %>" data-item-type="categoryProduct">Edit</button>
+                            <button type="button" class="btn btn-sm btn-danger" id="deletion" data-item-id="<%= category.id %>" data-item-type="category">Delete</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- detail carausels start -->
+<div class="container mt-4 bg-light">
+    <h2>Details carousel Management</h2>
+    
+    <!-- Add/Edit Dealer Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Add/Edit Carausels
+        </div>
+        <div class="card-body">
+            <form action="createCarousel" method="post" enctype="multipart/form-data" id="carauselForm">
+                <input type="hidden" name="formType" value="createCarausel">
+                <div class="form-group">
+                    <label for="productCategory">Product Category</label>
+                    <select class="form-control" id="productCategory" name="cat_id">
+                        <option>Select category</option>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.id %>"><%= category.id %> - <%= category.cat_title %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" class="form-control-file" id="crauselImage" name="image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary ml-2">Reset</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- detail carausel Listings Table -->
+    <div class="card">
+        <div class="card-header">
+            detail carousel
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="carauselList">
+                    <% carousels.forEach(carousel => { %>
+                        <tr>
+                            <td><%= carousel.id %></td>
+                            <td><%= carousel.cat_id %></td>
+                            <td><img src="/img/<%= carousel.image %>" alt="" style="max-width: 100px;"></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" style="width: 70px;"data-toggle="modal" data-target="#editModal" data-item-id="<%= carousel.id %>" data-item-type="carouselProduct">Edit</button>
+                                <button type="button" class="btn btn-sm btn-danger" style="width: 70px;"data-id="<%= carousel.id %>" data-item-id="<%= carousel.id %>" data-item-type="carousel">Delete</button>
+                            </td>
+                        </tr>
+                        <%});%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+ <!-- detail carausel ends -->
+			<!-- products -->
+			<div class="container mt-4 bg-light">
+				<h2>Detail Products Management</h2>
+				<div class="row">
+					<div class="col-md-12">
+						<!-- Product Form -->
+                        <form action="createProduct" method="post"id="editForm" enctype="multipart/form-data">
+                            <div class="form-group">
+								<label for="productCategory">Product Category</label>
+								<select class="form-control" id="productCategory"name="cat_id">
+									<option>Select category</option>
+                                    <% categories.forEach(category => { %>
+									<option><%= category.id %>-<%= category.cat_title %></option>
+                                    <% }); %>
+								</select>
+							</div>
+							<!-- <div class="form-group">
+								<label for="productName">Product Name</label>
+								<input type="text" class="form-control"name="title" id="productName" placeholder="Enter product name">
+							</div>
+							<div class="form-group">
+								<label for="productDescription">Product Description</label>
+								<textarea class="form-control"name="description" id="productDescription" rows="3" placeholder="Enter product description"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="productImage">Product Image</label>
+								<input type="file" class="form-control-file" id="productImage"name="image">
+							</div>
+							<div class="form-group">
+								<label for="productPrice">Product Price</label>
+								<input type="number" class="form-control" id="productPrice" name="price" placeholder="Enter product price">
+							</div>
+                            <div class="form-group">
+								<label for="productPrice">Product Inventory</label>
+								<input type="number" class="form-control" id="productPrice" name="inventory" placeholder="Enter product Inventory">
+							</div>
+                            <div class="form-group">
+                                <label for="productOffers">Available Offers</label>
+                                <input type="text" class="form-control" id="productOffers" name="offers" placeholder="Enter available offers">
+                            </div>
+                            <div class="form-group">
+                                <label for="productHighlights">Highlights</label>
+                                <textarea class="form-control" id="productHighlights" name="highlights" rows="3" placeholder="Enter product highlights"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCapacity">Capacity</label>
+                                <input type="text" class="form-control" id="productCapacity" name="capacity" placeholder="Enter product capacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="productBrand">Brand</label>
+                                <input type="text" class="form-control" id="productBrand" name="brand" placeholder="Enter product brand">
+                            </div>
+                            <div class="form-group">
+                                <label for="productModelNumber">Model Number</label>
+                                <input type="text" class="form-control" id="productModelNumber" name="model_number" placeholder="Enter product model number">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryIncluded">Battery Included</label>
+                                <input type="text" class="form-control" id="batteryIncluded" name="battery_included" placeholder="Enter battery inclusion status">
+                            </div>
+                            <div class="form-group">
+                                <label for="backupTime">Backup Time</label>
+                                <input type="text" class="form-control" id="backupTime" name="backup_time" placeholder="Enter backup time">
+                            </div>
+                            <div class="form-group">
+                                <label for="loadOptions">Load Options</label>
+                                <input type="text" class="form-control" id="loadOptions" name="load_options" placeholder="Enter load options">
+                            </div>
+                            <div class="form-group">
+                                <label for="productType">Product Type</label>
+                                <input type="text" class="form-control" id="productType" name="type" placeholder="Enter product type">
+                            </div>
+                            <div class="form-group">
+                                <label for="modelName">Model Name</label>
+                                <input type="text" class="form-control" id="modelName" name="model_name" placeholder="Enter model name">
+                            </div>
+                            <div class="form-group">
+                                <label for="modeType">Mode Type</label>
+                                <input type="text" class="form-control" id="modeType" name="mode_type" placeholder="Enter mode type">
+                            </div>
+                            <div class="form-group">
+                                <label for="material">Material</label>
+                                <input type="text" class="form-control" id="material" name="material" placeholder="Enter material">
+                            </div>
+                            <div class="form-group">
+                                <label for="technologyUsed">Technology Used</label>
+                                <input type="text" class="form-control" id="technologyUsed" name="technology_used" placeholder="Enter technology used">
+                            </div>
+                            <div class="form-group">
+                                <label for="solarPowerCompatible">Solar Power Compatible</label>
+                                <input type="text" class="form-control" id="solarPowerCompatible" name="solar_power_compatible" placeholder="Enter solar power compatibility status">
+                            </div>
+                            <div class="form-group">
+                                <label for="electrolyteVolume">Electrolyte Volume</label>
+                                <input type="text" class="form-control" id="electrolyteVolume" name="electrolyte_volume" placeholder="Enter electrolyte volume">
+                            </div>
+                            <div class="form-group">
+                                <label for="efficiency">Efficiency</label>
+                                <input type="text" class="form-control" id="efficiency" name="efficiency" placeholder="Enter efficiency">
+                            </div>
+                            <div class="form-group">
+                                <label for="outputVoltage">Output Voltage</label>
+                                <input type="text" class="form-control" id="outputVoltage" name="output_voltage" placeholder="Enter output voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="outputFrequency">Output Frequency</label>
+                                <input type="text" class="form-control" id="outputFrequency" name="output_frequency" placeholder="Enter output frequency">
+                            </div>
+                            <div class="form-group">
+                                <label for="acOutputTypes">AC Output Types</label>
+                                <input type="text" class="form-control" id="acOutputTypes" name="ac_output_types" placeholder="Enter AC output types">
+                            </div>
+                            <div class="form-group">
+                                <label for="outputPower">Output Power</label>
+                                <input type="text" class="form-control" id="outputPower" name="output_power" placeholder="Enter output power">
+                            </div>
+                            <div class="form-group">
+                                <label for="changeOverTime">Change Over Time</label>
+                                <input type="text" class="form-control" id="changeOverTime" name="change_over_time" placeholder="Enter change over time">
+                            </div>
+                            <div class="form-group">
+                                <label for="overloadRating">Overload Rating</label>
+                                <input type="text" class="form-control" id="overloadRating" name="overload_rating" placeholder="Enter overload rating">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputVoltage">Input Voltage</label>
+                                <input type="text" class="form-control" id="inputVoltage" name="input_voltage" placeholder="Enter input voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputFrequency">Input Frequency</label>
+                                <input type="text" class="form-control" id="inputFrequency" name="input_frequency" placeholder="Enter input frequency">
+                            </div>
+                            <div class="form-group">
+                                <label for="lowCutInputVoltage">Low Cut Input Voltage</label>
+                                <input type="text" class="form-control" id="lowCutInputVoltage" name="low_cut_input_voltage" placeholder="Enter low cut input voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="lowCutRecoveryInputVoltage">Low Cut Recovery Input Voltage</label>
+                                <input type="text" class="form-control" id="lowCutRecoveryInputVoltage" name="low_cut_recovery_input_voltage" placeholder="Enter low cut recovery input voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="highCutInputVoltage">High Cut Input Voltage</label>
+                                <input type="text" class="form-control" id="highCutInputVoltage" name="high_cut_input_voltage" placeholder="Enter high cut input voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="highCutRecoveryInputVoltage">High Cut Recovery Input Voltage</label>
+                                <input type="text" class="form-control" id="highCutRecoveryInputVoltage" name="high_cut_recovery_input_voltage" placeholder="Enter high cut recovery input voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryType">Battery Type</label>
+                                <input type="text" class="form-control" id="batteryType" name="battery_type" placeholder="Enter battery type">
+                            </div>
+                            <div class="form-group">
+                                <label for="rechargeTime">Recharge Time</label>
+                                <input type="text" class="form-control" id="rechargeTime" name="recharge_time" placeholder="Enter recharge time">
+                            </div>
+                            <div class="form-group">
+                                <label for="numberOfBatteries">Number of Batteries</label>
+                                <input type="text" class="form-control" id="numberOfBatteries" name="number_of_batteries" placeholder="Enter number of batteries">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryBoostVoltage">Battery Boost Voltage</label>
+                                <input type="text" class="form-control" id="batteryBoostVoltage" name="battery_boost_voltage" placeholder="Enter battery boost voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryVoltage">Battery Voltage</label>
+                                <input type="text" class="form-control" id="batteryVoltage" name="battery_voltage" placeholder="Enter battery voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryCapacity">Battery Capacity</label>
+                                <input type="text" class="form-control" id="batteryCapacity" name="battery_capacity" placeholder="Enter battery capacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryChargingCurrent">Battery Charging Current</label>
+                                <input type="text" class="form-control" id="batteryChargingCurrent" name="battery_charging_current" placeholder="Enter battery charging current">
+                            </div>
+                            <div class="form-group">
+                                <label for="replacementBattery">Replacement Battery</label>
+                                <input type="text" class="form-control" id="replacementBattery" name="replacement_battery" placeholder="Enter replacement battery">
+                            </div>
+                            <div class="form-group">
+                                <label for="replacementBatteryType">Replacement Battery Type</label>
+                                <input type="text" class="form-control" id="replacementBatteryType" name="replacement_battery_type" placeholder="Enter replacement battery type">
+                            </div>
+                            <div class="form-group">
+                                <label for="compatibleBatteryTypes">Compatible Battery Types</label>
+                                <input type="text" class="form-control" id="compatibleBatteryTypes" name="compatible_battery_types" placeholder="Enter compatible battery types">
+                            </div>
+                            <div class="form-group">
+                                <label for="compatibleBatteryMake">Compatible Battery Make</label>
+                                <input type="text" class="form-control" id="compatibleBatteryMake" name="compatible_battery_make" placeholder="Enter compatible battery make">
+                            </div>
+                            <div class="form-group">
+                                <label for="otherBatteryFeatures">Other Battery Features</label>
+                                <input type="text" class="form-control" id="otherBatteryFeatures" name="other_battery_features" placeholder="Enter other battery features">
+                            </div>
+                            <div class="form-group">
+                                <label for="storageTemperature">Storage Temperature</label>
+                                <input type="text" class="form-control" id="storageTemperature" name="storage_temperature" placeholder="Enter storage temperature">
+                            </div>
+                            <div class="form-group">
+                                <label for="operatingTemperature">Operating Temperature</label>
+                                <input type="text" class="form-control" id="operatingTemperature" name="operating_temperature" placeholder="Enter operating temperature">
+                            </div>
+                            <div class="form-group">
+                                <label for="noiseLevel">Noise Level</label>
+                                <input type="text" class="form-control" id="noiseLevel" name="noise_level" placeholder="Enter noise level">
+                            </div>
+                            <div class="form-group">
+                                <label for="otherEnvironmentalFeatures">Other Environmental Features</label>
+                                <input type="text" class="form-control" id="otherEnvironmentalFeatures" name="other_environmental_features" placeholder="Enter other environmental features">
+                            </div>
+                            <div class="form-group">
+                                <label for="emergencyPowerOff">Emergency Power Off</label>
+                                <input type="text" class="form-control" id="emergencyPowerOff" name="emergency_power_off" placeholder="Enter emergency power off">
+                            </div>
+                            <div class="form-group">
+                                <label for="displayType">Display Type</label>
+                                <input type="text" class="form-control" id="displayType" name="display_type" placeholder="Enter display type">
+                            </div>
+                            <div class="form-group">
+                                <label for="displayIndicatorFunctions">Display Indicator Functions</label>
+                                <input type="text" class="form-control" id="displayIndicatorFunctions" name="display_indicator_functions" placeholder="Enter display indicator functions">
+                            </div>
+                            <div class="form-group">
+                                <label for="audibleIndicatorFunctions">Audible Indicator Functions</label>
+                                <input type="text" class="form-control" id="audibleIndicatorFunctions" name="audible_indicator_functions" placeholder="Enter audible indicator functions">
+                            </div>
+                            <div class="form-group">
+                                <label for="protectionAgainst">Protection Against</label>
+                                <input type="text" class="form-control" id="protectionAgainst" name="protection_against" placeholder="Enter protection against">
+                            </div>
+                            <div class="form-group">
+                                <label for="coolingSystem">Cooling System</label>
+                                <input type="text" class="form-control" id="coolingSystem" name="cooling_system" placeholder="Enter cooling system">
+                            </div>
+                            <div class="form-group">
+                                <label for="width">Width</label>
+                                <input type="text" class="form-control" id="width" name="width" placeholder="Enter width">
+                            </div>
+                            <div class="form-group">
+                                <label for="height">Height</label>
+                                <input type="text" class="form-control" id="height" name="height" placeholder="Enter height">
+                            </div>
+                            <div class="form-group">
+                                <label for="depth">Depth</label>
+                                <input type="text" class="form-control" id="depth" name="depth" placeholder="Enter depth">
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Weight</label>
+                                <input type="text" class="form-control" id="weight" name="weight" placeholder="Enter weight">
+                            </div>
+                            <div class="form-group">
+                                <label for="corrosionResistant">Corrosion Resistant</label>
+                                <input type="text" class="form-control" id="corrosionResistant" name="corrosion_resistant" placeholder="Enter corrosion resistant">
+                            </div>
+                            <div class="form-group">
+                                <label for="warrantySummary">Warranty Summary</label>
+                                <input type="text" class="form-control" id="warrantySummary" name="warranty" placeholder="Enter warranty summary">
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceType">Service Type</label>
+                                <input type="text" class="form-control" id="serviceType" name="service_type" placeholder="Enter service type">
+                            </div>
+                            <div class="form-group">
+                                <label for="coveredInWarranty">Covered in Warranty</label>
+                                <input type="text" class="form-control" id="coveredInWarranty" name="covered_in_warranty" placeholder="Enter covered in warranty">
+                            </div>
+                            <div class="form-group">
+                                <label for="notCoveredInWarranty">Not Covered in Warranty</label>
+                                <input type="text" class="form-control" id="notCoveredInWarranty" name="not_covered_in_warranty" placeholder="Enter not covered in warranty">
+                            </div> -->
+                            <div class="form-group">
+                                <label for="product-name">Product Name</label>
+                                <input type="text" class="form-control" id="product-name" name="title" placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">Product Price</label>
+                                <input type="text" class="form-control" id="product-price" name="price" placeholder="Enter product price">
+                            </div>
+                            <div class="form-group">
+                                <label for="batteryCapacity"> Capacity</label>
+                                <input type="text" class="form-control" id="batteryCapacity" name="capacity" placeholder="Enter battery capacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="technologyUsed">Technology</label>
+                                <input type="text" class="form-control" id="technologyUsed" name="technology" placeholder="Enter technology used">
+                            </div>
+                            <div class="form-group">
+                                <label for="warrantySummary">Warranty</label>
+                                <input type="text" class="form-control" id="warrantySummary" name="warranty" placeholder="Enter warranty summary">
+                            </div>
+                            <div class="form-group">
+                                <label for="otherEnvironmentalFeatures"> Features</label>
+                                <input type="text" class="form-control" id="otherEnvironmentalFeatures" name="features" placeholder="Enter other environmental features">
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Weight</label>
+                                <input type="text" class="form-control" id="weight" name="weight" placeholder="Enter weight">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">Description</label>
+                                <textarea class="form-control" id="product-description" name="desc" rows="5" placeholder="Enter product description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="product-images">Images</label>
+                                <input type="file" class="form-control" id="product-images" name="image" multiple>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-reviews"> Reviews</label>
+                                <input type="number" class="form-control" id="product-reviews" name="reviews" placeholder="Enter number of reviews">
+                            </div>
+                            <div class="form-group">
+                                <label for="product_qty">Quantity</label>
+                                <input type="text" class="form-control" id="product_qty" name="product_qty" placeholder="Enter product_qty">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-rating">Product Rating</label>
+                                <select class="form-control" id="product-rating" name="ratings">
+                                    <option value="5">5 Stars</option>
+                                    <option value="4.5">4.5 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="3.5">3.5 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="2.5">2.5 Stars</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="1.5">1.5 Stars</option>
+                                    <option value="1">1 Star</option>
+                                    <option value="0.5">0.5 Star</option>
+                                </select>
+                            </div>
+							<button type="submit" class="btn btn-primary">Add Product</button>
+						</form>
+					</div>
+					<div class="col-md-12">
+						<!-- Product Table -->
+						<table class="table">
+							<thead>
+								<tr>
+									<th>id</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Image</th>
+									<th>Price</th>
+									<th>Reviews</th>
+                                    <th>Ratings</th>
+									<th>Category</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+                                <% pros.forEach(pro => { %>
+								<tr>
+									<td class="product-id"><%= pro.id %></td>
+									<td><%= pro.title %></td>
+									<td><%= pro.desc %></td>
+									<td><img src="/img/<%= pro.image %>" alt="Product 1 Image" style="max-width: 100px;"></td>
+									<td>₹<%=pro.price %></td>
+									<td><%= pro.reviews %></td>
+                                    <td><%= pro.ratings %></td>
+									<td><%= pro.cat_id %></td>
+									<td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= pro.id %>" data-item-type="proProduct">Edit</button>
+										<button type="button" class="btn btn-sm btn-danger"data-item-id="<%= pro.id %>" data-item-type="pro">Delete</button>
+									</td>
+								</tr>
+                                <%});%>
+								<!-- More product rows go here -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+            <div class="container mt-4 bg-light">
+                <h2>Like Products Management</h2>
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Category Form -->
+                        <form action="likeProduct" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="likeName">Name</label>
+                                <input type="text" class="form-control" id="likeName" name="name" placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="likePrice">Price</label>
+                                <textarea class="form-control" id="likePrice" name="price" rows="1" placeholder="Enter product price"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="likeOldPrice">Old Price</label>
+                                <textarea class="form-control" id="likePrice" name="old_price" rows="1" placeholder="Enter product old price"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoryImage">Image</label>
+                                <input type="file" class="form-control-file" id="likeImage" name="image_url">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-reviews"> Reviews</label>
+                                <input type="number" class="form-control" id="product-reviews" name="reviews_count" placeholder="Enter number of reviews">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-rating">Product Rating</label>
+                                <select class="form-control" id="product-rating" name="rating">
+                                    <option value="5">5 Stars</option>
+                                    <option value="4.5">4.5 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="3.5">3.5 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="2.5">2.5 Stars</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="1.5">1.5 Stars</option>
+                                    <option value="1">1 Star</option>
+                                    <option value="0.5">0.5 Star</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                    <div class="col-md-10">
+                        <!-- Category Table -->
+                        <table class="table mt-2">
+                            <thead>
+                                <tr>
+									<th>id</th>
+									<th>Name</th>
+                                    <th>Price</th>
+                                    <th>Old Price</th>
+									<th>Image</th>
+									<th>Ratings</th>
+									<th>Reviews</th>
+									<th>Action</th>
+								</tr>
+                            </thead>
+                            <tbody>
+                                <% likes.forEach(like => { %>
+                                <tr>
+                                    <td><%= like.id %></td>
+                                    <td><%= like.name  %></td>
+                                    <td><%= like.price  %></td>
+                                    <td><%= like.old_price  %></td>
+                                    <td><img src="/img/<%= like .image_url %>" alt="image" style="max-width: 100px;"></td>
+                                    <td><%= like.rating  %></td>
+                                    <td><%= like.reviews_count %></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= like.id %>" data-item-type="likeProduct">Edit</button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="deletion" data-item-id="<%= like.id %>" data-item-type="like">Delete</button>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+
+
+			<!--Featured Products Management-->
+<div class="container mt-4 bg-light">
+    <h2>Featured Products Management</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Service Form -->
+            <form action="createFeature" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="featureTitle" name="name" placeholder="Enter title">
+                </div>
+                <!-- <div class="form-group">
+                    <label for="serviceDescription">Service Description</label>
+                    <textarea class="form-control" id="serviceDescription" rows="3" name="description" placeholder="Enter service description"></textarea>
+                </div> -->
+                <div class="form-group">
+                    <label for="product-reviews">Number of Reviews</label>
+                    <input type="number" class="form-control" id="product-reviews" name="review_count" placeholder="Enter number of reviews">
+                </div>
+                <div class="form-group">
+                    <label for="product-rating">Product Rating</label>
+                    <select class="form-control" id="product-rating" name="rating">
+                        <option value="5">5 Stars</option>
+                        <option value="4.5">4.5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3.5">3.5 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2.5">2.5 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1.5">1.5 Stars</option>
+                        <option value="1">1 Star</option>
+                        <option value="0.5">0.5 Star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="servicePrice">Current Price</label>
+                    <input type="number" class="form-control" id="featureCurrentPrice" name="current_price" placeholder="Enter current price">
+                </div>
+                <div class="form-group">
+                    <label for="servicePrice">Original Price</label>
+                    <input type="number" class="form-control" id="featureOriginalPrice" name="original_price" placeholder="Enter Original price">
+                </div>
+                <div class="form-group">
+                    <label for="featureImage"> Image</label>
+                    <input type="file" class="form-control-file" id="featureImage"name="image">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Featured Pro</button>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <!-- Featured Products  Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Title</th>
+                        <th>Ratings</th>
+                        <th>Reviews</th>
+                        <th>Current Price</th>
+                        <th>Original Price</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% features.forEach(feature => { %>
+                    <tr>
+                        <td><%= feature.id %></td>
+                        <td><%= feature.name %></td>
+                        <td><%= feature.rating %></td>
+                        <td><%= feature.review_count %></td>
+                        <td>₹<%= feature.current_price %></td>
+                        <td>₹<%= feature.original_price %></td>
+                        <td><img src="/img/<%= feature.image %>" alt="Product 1 Image" style="max-width: 100px;"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary"data-toggle="modal" data-target="#editModal" data-item-id="<%= feature.id %>" data-item-type="featureProduct">Edit</button>
+                            <button type="button" class="btn btn-sm btn-danger"data-item-id="<%= feature.id %>" data-item-type="feature">Delete</button>
+                        </td>
+                    </tr>
+                    <%});%>
+                    <!-- More service rows go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Products Management -->
+<div class="container mt-4 bg-light">
+    <h2>Recent Products Management</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Service Form -->
+            <form action="createRecent" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="recentTitle">Title</label>
+                    <input type="text" class="form-control" id="recentTitle" name="name" placeholder="Enter Recent Title">
+                </div>
+                <div class="form-group">
+                    <label for="product-reviews">Number of Reviews</label>
+                    <input type="number" class="form-control" id="product-reviews" name="review_count" placeholder="Enter number of reviews">
+                </div>
+                <div class="form-group">
+                    <label for="product-rating">Product Rating</label>
+                    <select class="form-control" id="product-rating" name="rating">
+                        <option value="5">5 Stars</option>
+                        <option value="4.5">4.5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3.5">3.5 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2.5">2.5 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1.5">1.5 Stars</option>
+                        <option value="1">1 Star</option>
+                        <option value="0.5">0.5 Star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="recentPrice">Current Price</label>
+                    <input type="number" class="form-control" id="recentPrice" name="current_price" placeholder="Enter Current Price">
+                </div>
+                <div class="form-group">
+                    <label for="recentOriginalPrice">Original Price</label>
+                    <input type="number" class="form-control" id="recentOriginalPrice" name="original_price" placeholder="Enter Original Price">
+                </div>
+                <div class="form-group">
+                    <label for="recentImage"> Image</label>
+                    <input type="file" class="form-control-file" id="recentImage" name="image"  multiple />
+                </div>
+                <button type="submit" class="btn btn-primary">Add Recent Product</button>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <!-- Featured Products  Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Title</th>
+                        <th>Ratings</th>
+                        <th>Reviews</th>
+                        <th>Current Price</th>
+                        <th>Original Price</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% recents.forEach(recent => { %>
+                    <tr>
+                        <td><%= recent.id %></td>
+                        <td><%= recent.name %></td>
+                        <td><%= recent.rating %></td>
+                        <td><%= recent.review_count %></td>
+                        <td>₹<%= recent.current_price %></td>
+                        <td>₹<%= recent.original_price %></td>
+                        <td><img src="/img/<%= recent.image %>" alt="Product Image" style="max-width: 100px;"></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" style="width: 70px;"data-toggle="modal" data-target="#editModal" data-item-id="<%= recent.id %>" data-item-type="recentProduct">Edit</button>
+                            <button type="button" class="btn btn-sm btn-danger" style="width: 70px;"data-item-id="<%= recent.id %>" data-item-type="recent">Delete</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                    <!-- More service rows go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Recommended Products Brands Management -->
+
+<div class="container mt-4 bg-light">
+    <h2>Recommended Products Brands Management</h2>
+    
+    <!-- Add/Edit Dealer Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Add/Edit Brands
+        </div>
+        <div class="card-body">
+            <form action="createBrand" method="post" enctype="multipart/form-data" id="dealerForm">
+                <input type="hidden" name="formType" value="createRecommended">
+                <!-- <div class="form-group">
+                    <label for="dealerName">Name</label>
+                    <input type="text" class="form-control" id="dealerName"name="name" placeholder="Enter dealer name">
+                </div>
+                <div class="form-group">
+                    <label for="dealerAddress">Address</label>
+                    <input type="text" class="form-control" id="dealerAddress"name="address" placeholder="Enter dealer address">
+                </div>
+                <div class="form-group">
+                    <label for="dealerContact">Contact</label>
+                    <input type="text" class="form-control" id="dealerContact"name="contact" placeholder="Enter dealer contact">
+                </div> -->
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" class="form-control-file" id="brandImage" name="image_url" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary ml-2">Reset</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Recommended Products Brands Listings Table -->
+    <div class="card">
+        <div class="card-header">
+            Recommended Products Brands
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <!-- <th>Name</th>
+                        <th>Address</th>
+                        <th>Contact</th> -->
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="dealerList">
+                    <% brands.forEach(brand => { %>
+                        <tr>
+                            <td><%= brand.id %></td>
+                            <td><img src="/img/<%= brand.image_url %>" alt="<%= brand.alt_text %>" style="max-width: 100px;"></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" style="width: 70px;"data-toggle="modal" data-target="#editModal" data-item-id="<%= brand.id %>" data-item-type="brand">Edit</button>
+                               <button type="button" class="btn btn-sm btn-danger" data-item-id="<%= brand.id %>" data-item-type="brand">Delete</button>
+                            </td>
+                        </tr>
+                        <%});%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- offers management -->
+<div class="container mt-4 bg-light">
+    <h2>Offers Products Management</h2>
+    
+    <!-- Add/Edit Dealer Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Add/Edit Offer
+        </div>
+        <div class="card-body">
+            <form action="/createOffer" method="post" enctype="multipart/form-data" id="offerForm">
+                <input type="hidden" name="formType" value="createOffers">
+                <!-- <div class="form-group">
+                    <label for="dealerName">Name</label>
+                    <input type="text" class="form-control" id="dealerName"name="name" placeholder="Enter dealer name">
+                </div>
+                <div class="form-group">
+                    <label for="dealerAddress">Address</label>
+                    <input type="text" class="form-control" id="dealerAddress"name="address" placeholder="Enter dealer address">
+                </div>
+                <div class="form-group">
+                    <label for="dealerContact">Contact</label>
+                    <input type="text" class="form-control" id="dealerContact"name="contact" placeholder="Enter dealer contact">
+                </div> -->
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" class="form-control-file" id="offerImage" name="image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary ml-2">Reset</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- offer Products  Listings Table -->
+    <div class="card">
+        <div class="card-header">
+           Offers Products 
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Discount</th>
+                        <th>Link</th>
+                        <th>Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="offerList">
+                    <% offers.forEach(offer => { %>
+                        <tr>
+                            <td><%= offer.id %></td>
+                            <td><%= offer.title %></td>
+                            <td><%= offer.discount %></td>
+                            <td><%= offer.link %></td>
+                            <td><img src="/img/<%= offer.image %>" alt="" style="max-width: 100px;"></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" style="width: 70px;"data-toggle="modal" data-target="#editModal" data-item-id="<%= offer.id %>" data-item-type="offer">Edit</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-item-id="<%= offer.id %>" data-item-type="offer">Delete</button>
+                            </td>
+                        </tr>
+                        <%});%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  Recent From Our Blogs -->
+
+<div class="container mt-4 bg-light">
+    <h2>Blogs Management</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            Upload Image
+        </div>
+        <div class="card-body">
+            <form action="/createBlog" method="post" enctype="multipart/form-data" id="uploadForm">
+                <input type="hidden" name="formType" value="createBlog">
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <input type="text" class="form-control" id="title"name="name" placeholder="Enter title">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description"name="description" placeholder="Enter description">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-control" id="category">
+                        <option value="product">Product Image</option>
+                        <option value="event">Event Photo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <!--  Recent From Our Blogs -->
+    <div class="card">
+        <div class="card-header">
+           Recent From Our Blogs 
+        </div>
+        <div class="card-body">
+            <div class="row" id="imageGallery">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>title</th>
+                            <th>description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dealerList">
+                        <% blogs.forEach(blog => { %>
+                            <tr>
+                                <td><%= blog.id %></td>
+                                <td><img src="/img/<%= blog.image %>" alt="Product 1 Image" style="max-width: 100px;"></td>
+                                <td><%= blog.title %></td>
+                                <td><%= blog.description %></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" style="width: 70px;"data-toggle="modal" data-target="#editModal" data-item-id="<%= blog.id %>"  data-name="<%= blog.name %>" data-description="<%= blog.description %>" data-item-type="blog">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-danger" data-item-id="<%= blog.id %>" data-item-type="blog">Delete</button>
+                                </td>
+                            </tr>
+                            <%});%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Seller Form Start-->
+<div class="container mt-4 bg-light">
+    <h2>Sellers Management</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Seller Form -->
+            <form action="createSeller" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="sellerName">Seller Name</label>
+                    <input type="text" class="form-control" id="sellerName" name="seller_name" placeholder="Enter seller  name">
+                </div>
+                <div class="form-group">
+                    <label for="sellerAddress">Seller Address</label>
+                    <textarea class="form-control" id="sellerAddress" name="seller_address" rows="3" placeholder="Enter seller Address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sellerState">Seller State</label>
+                    <input type="text" class="form-control-file" id="sellerState" name="seller_state" placeholder="Enter seller State">
+                </div>
+                <div class="form-group">
+                    <label for="GSTIN">GSTIN</label>
+                    <input type="text" class="form-control-file" id="gst" name="gst" placeholder="Enter GSTIN">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Seller</button>
+            </form>
+        </div>
+        <div class="col-md-10">
+            <!-- Seller Table -->
+            <table class="table mt-2">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Seller Name</th>
+                        <th>Seller Address</th>
+                        <th>Seller State</th>
+                        <th>GSTIN</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% sellers.forEach(seller => { %>
+                    <tr>
+                        <td><%= seller.id %></td>
+                        <td><%= seller.seller_name %></td>
+                        <td><%= seller.seller_address %></td>
+                        <td><%= seller.seller_state %></td>
+                        <td><%= seller.gst %></td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" data-item-id="<%= seller.id %>" data-item-type="sellerProduct">Edit</button>
+                         <button type="button" class="btn btn-sm btn-danger" data-item-id="<%= seller.id %>" data-item-type="sellerProduct">Delete</button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- about us -->
+<div class="container mt-4 bg-light">
+    <h2>About Us Management</h2>
+
+    <!-- About Us Form -->
+    <div class="card">
+        <div class="card-header">
+            Edit About Us Content
+        </div>
+        <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data" id="aboutUsForm">
+                <input type="hidden" name="formType" value="createAbout">
+                <div class="form-group">
+                    <label for="image">Select Image</label>
+                    <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" class="form-control" id="companyName" name="company_name" placeholder="Enter company name" required>
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter company address" required>
+                </div>
+                <div class="form-group">
+                    <label for="mission">Mission</label>
+                    <textarea class="form-control" id="mission" name="mission" rows="3" placeholder="Enter mission" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="vision">Vision</label>
+                    <textarea class="form-control" id="vision" name="vision" rows="3" placeholder="Enter vision" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="history">History</label>
+                    <textarea class="form-control" id="history" name="history" rows="3" placeholder="Enter history" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- testimonial -->
+
+<div class="container mt-4 bg-light">
+    <h2>Testimonials Management</h2>
+
+    <!-- Add/Edit Testimonial Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Add/Edit Testimonial
+        </div>
+        <div class="card-body">
+            <form id="testimonialForm">
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="Enter customer name" required>
+                </div>
+                <div class="form-group">
+                    <label for="testimonial">Testimonial</label>
+                    <textarea class="form-control" id="testimonial" rows="3" placeholder="Enter testimonial" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary ml-2">Reset</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Testimonials Table -->
+    <div class="card">
+        <div class="card-header">
+            Testimonials
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Testimonial</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="testimonialList">
+                    <!-- Testimonials will be populated dynamically here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- video -->
+<div class="container mt-4 bg-light">
+    <h2>Videos Management</h2>
+
+    <!-- Upload Video Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            Upload Video
+        </div>
+        <div class="card-body">
+            <form action="video" method="post" id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="video">Select Video</label>
+                    <input type="file" name="image" class="form-control-file" id="video" accept="video/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="videoTitle">Video Title</label>
+                    <input type="text" class="form-control"  name="title" id="videoTitle" placeholder="Enter video title" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Videos Table -->
+    <div class="card">
+        <div class="card-header">
+            Videos
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Preview</th>
+                        <th>TimeStamp</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+               
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+</div>
+<!-- contact us -->
+
+<div class="container mt-4 bg-light">
+    <h2>Contact Us Queries</h2>
+
+    <!-- Queries Table -->
+    <div class="card">
+        <div class="card-header">
+            Queries
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>TimeStamp</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="queryList">
+                    <% contacts.forEach(contact => { %>
+                        <tr>
+                            <td><%= contact.id %></td>
+                            <td><%= contact.name %></td>
+                            <td><%= contact.email %></td>
+                            <td><%= contact.subject %></td>
+                            <td><%= contact.message %></td>
+                            <td>
+                                <%= new Date(contact.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+                                <%= new Date(contact.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" style="width: 70px;">Edit</button>
+                                <button type="button" class="btn btn-sm btn-danger" style="width: 70px;">Delete</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- user -->
+<div class="container mt-4 bg-light">
+    <h2>User Management</h2>
+
+    <!-- Users Table -->
+    <div class="card">
+        <div class="card-header">
+            Users
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="userList">
+                    <!-- Users will be populated dynamically here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- receipt -->
+<div class="container mt-4 bg-light">
+    <h2>Receipts/Orders Management</h2>
+
+    <!-- Orders Table -->
+    <div class="card">
+        <div class="card-header">
+            Orders
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="orderList">
+                    <!-- Orders will be populated dynamically here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form  id="editForm"  method="POST"  enctype="multipart/form-data">
+
+                    <input type="hidden" id="editId" name="id">
+                    <div class="form-group">
+                        <label for="editName">Product Name</label>
+                        <input type="text" class="form-control" id="editName" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Product Description</label>
+                        <textarea class="form-control" name="description" id="editDescription" rows="3" placeholder="Enter product description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editImage">Product Image</label>
+                        <input type="file" class="form-control-file" id="editImage" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice">Product Price</label>
+                        <input type="number" class="form-control" id="editPrice" name="price" placeholder="Enter product price">
+                    </div>
+                    <div class="form-group">
+                        <label for="editInventory">Product Inventory</label>
+                        <input type="number" class="form-control" id="editInventory" name="inventory" placeholder="Enter product inventory">
+                    </div>
+                    <div class="form-group">
+                        <label for="editReviews">Number of Reviews</label>
+                        <input type="number" class="form-control" id="editReviews" name="review_count" placeholder="Enter number of reviews">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice">Current Price</label>
+                        <input type="number" class="form-control" id="editPrice" name="current_price" placeholder="Enter Current Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="editOriginalPrice">Original Price</label>
+                        <input type="number" class="form-control" id="editOriginalPrice" name="original_price" placeholder="Enter Original Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCategory">Category</label>
+                        <select class="form-control" id="editCategory">
+                            <option value="product">Product Image</option>
+                            <option value="event">Event Photo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBatteryCapacity"> Capacity</label>
+                        <input type="text" class="form-control" id="editBatteryCapacity" name="capacity" placeholder="Enter battery capacity">
+                    </div>
+                    <div class="form-group">
+                        <label for="editTechnologyUsed">Technology</label>
+                        <input type="text" class="form-control" id="editTechnologyUsed" name="technology" placeholder="Enter technology used">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWarrantySummary">Warranty</label>
+                        <input type="text" class="form-control" id="editWarrantySummary" name="warranty" placeholder="Enter warranty summary">
+                    </div>
+                    <div class="form-group">
+                        <label for="editFeatures"> Features</label>
+                        <input type="text" class="form-control" id="editFeatures" name="features" placeholder="Enter other environmental features">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWeight">Weight</label>
+                        <input type="text" class="form-control" id="editWeight" name="weight" placeholder="Enter weight">
+                    </div>
+                    <div class="form-group">
+                        <label for="editButton1_text">Button 1 Text:</label>
+                        <input type="text" id="editButton1_text" name="button1_text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="editButton1_link">Button 1 Link:</label>
+                        <input type="text" id="editButton1_link" name="button1_link" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="editButton2_text">Button 2 Text:</label>
+                        <input type="text" id="editButton2_text" name="button2_text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="editButton2_link">Button 2 Link:</label>
+                        <input type="text" id="editButton2_link" name="button2_link" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="editOffer_text">Offer Text:</label>
+                        <input type="text" id="editOffer_text" name="offer_text" class="form-control" >
+                    </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="updateProduct" data-item-type="product">Save changes</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+
+
+$(document).on('click', '[data-toggle="modal"][data-target="#editModal"]', function () {
+    const id = $(this).data('item-id');
+    const type = $(this).data('item-type');
+
+    const formAction = `/admin/update/${type}/${id}`;
+    console.log(formAction,'hgfjhgf');
+    // Set the form action dynamically
+    $('#editModal').find('form').attr('action', formAction);
+
+    const url = `/admin/edit/${type}/${id}`;
+
+    $.get(url, function (data) {
+        // $('#editModal').find('form').attr('action', `/admin/update/${type}/${id}`);
+        $('#editId').val(data.data.id);
+        $('#editName').val(data.data.name);
+        $('#editDescription').val(data.data.description);
+        $('#editPrice').val(data.data.price);
+        $('#editInventory').val(data.data.inventory);
+        $('#editReviews').val(data.data.review_count);
+        $('#editCategory').val(data.data.category);
+        $('#editOriginalPrice').val(data.data.original_price);
+        // Populate other fields as needed
+
+    });
+});
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-danger').forEach(button => {
+    button.addEventListener('click', function() {
+      const itemId = this.getAttribute('data-item-id');
+      const itemType = this.getAttribute('data-item-type');
+      if (confirm(`Are you sure you want to delete this ${itemType}?`)) {
+        fetch(`/admin/deleteItem/${itemType}/${itemId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'item-type': itemType
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.success) {
+            location.reload();
+          } else {
+            alert(`Failed to delete ${itemType}`);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      }
+    });
+  });
+});
+
+//   document.querySelectorAll('.btn-danger').forEach(function(button) {
+//   button.addEventListener('click', function() {
+//     var productId = this.closest('tr').querySelector('td:first-child').textContent;
+//     console.log(productId,'boom');
+//     var row = this.closest('tr'); 
+//     fetch('/products/' + productId, {
+//       method: 'DELETE'
+//     })
+//     .then(function(response) {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       return response;
+//     })
+//     .then(function() {
+//       row.remove();
+//     })
+//     .catch(function(error) {
+//       console.error('Error:', error);
+//     });
+//   });
+// });
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const editModal = document.getElementById('editModal');
+//   const editForm = document.getElementById('editForm');
+  
+//   editModal.addEventListener('show.bs.modal', function(event) {
+//     const button = event.relatedTarget;
+//     const itemId = button.getAttribute('data-item-id');
+//     const itemType = button.getAttribute('data-item-type');
+    
+//     // Fetch the item data based on the ID and type
+//     fetch(`/admin/getItem?id=${itemId}&type=${itemType}`)
+//       .then(response => response.json())
+//       .then(data => {
+//         // Populate the form fields with the data
+//         document.getElementById('editId').value = data.id;
+//         document.getElementById('editName').value = data.name || data.title;
+//         document.getElementById('editDescription').value = data.description || '';
+//         document.getElementById('editImage').value = ''; // Reset the file input
+//         document.getElementById('editPrice').value = data.price || '';
+//         document.getElementById('editInventory').value = data.inventory || '';
+//         document.getElementById('editReviews').value = data.review_count || '';
+//         document.getElementById('editCurrentPrice').value = data.current_price || '';
+//         document.getElementById('editOriginalPrice').value = data.original_price || '';
+//         document.getElementById('editCategory').value = data.category || '';
+//         document.getElementById('editBatteryCapacity').value = data.capacity || '';
+//         document.getElementById('editTechnologyUsed').value = data.technology || '';
+//         document.getElementById('editWarrantySummary').value = data.warranty || '';
+//         document.getElementById('editFeatures').value = data.features || '';
+//         document.getElementById('editWeight').value = data.weight || '';
+//         document.getElementById('editButton1_text').value = data.button1_text || '';
+//         document.getElementById('editButton1_link').value = data.button1_link || '';
+//         document.getElementById('editButton2_text').value = data.button2_text || '';
+//         document.getElementById('editButton2_link').value = data.button2_link || '';
+//         document.getElementById('editOffer_text').value = data.offer_text || '';
+//       })
+//       .catch(error => {
+//         console.error('Error fetching item data:', error);
+//       });
+//   });
+// });
+
+
+
+    </script>
+</body>
+</html> 

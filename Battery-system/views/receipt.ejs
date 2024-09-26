@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin-top: 200px;
+            margin-bottom: 120px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        .invoice-logo img {
+            max-width: 100px;
+            height: auto;
+        }
+        .invoice-from ul,
+        .invoice-to ul {
+            padding: 0;
+            list-style: none;
+        }
+        .invoice-details .well {
+            background: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 15px;
+        }
+        .invoice-footer {
+            margin-top: 30px;
+        }
+        .brand-text {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .brand-battery {
+            color: #ffc107; /* Warm color */
+            background-color: #000; /* Black background */
+        }
+        .brand-com {
+            color: #000; /* Black color */
+            background-color: #ffc107; /* Warm background */
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .table thead th,
+        .table tfoot th {
+            background: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row invoice row-printable">
+            <div class="col-md-12">
+                <div class="panel panel-default plain" id="dash_0">
+                    <div class="panel-body p30">
+                        <div class="row">
+                            <div class="col-lg-12 text-center mb-4">
+                                <div>
+                                    <span class="brand-text brand-battery">Battery</span><span class="brand-text brand-com">.Com</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="invoice-logo">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Invoice logo">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <div class="invoice-from">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <strong>Seller Name:</strong>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <%= seller.seller_name %>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <strong>Seller Address:</strong>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <%= seller.seller_address %>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <strong>Seller State:</strong>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <%= seller.seller_state %>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <strong>GSTIN:</strong>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <%= seller.gst %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12">
+                                <div class="invoice-details mt25">
+                                    <div class="well">
+                                        <ul class="list-unstyled mb0">
+                                            <li><strong>Invoice</strong> <%= receipt_id %></li>
+                                            <li><strong>Invoice Date:</strong> <%= formattedDate %></li>
+                                            <li><strong>Due Date:</strong> <%= formattedDueDate %></li>
+                                            <li><strong>Status:</strong> <span class="badge badge-danger">UNPAID</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="invoice-to mt25">
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Invoiced To</strong></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Name:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.FirstName %> <%= userDetails.LastName %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Email:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.EmailAddress %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Address Line 1:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.address_line_1 %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Address Line 2:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.address_line_2 %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>City:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.city %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>State:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.state %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Zip Code:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.zip_code %></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3"><strong>Country:</strong></div>
+                                        <div class="col-sm-9"><%= userDetails.country %></div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="invoice-items">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Title</th>
+                                                    <th class="text-center">Qty</th>
+                                                    <th class="text-center">Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% receiptItems.forEach(receipt => { %>
+                                                    <tr>
+                                                        <td><%= receipt.title %></td>
+                                                        <td class="text-center" id="quantity"><%= receipt.quantity %></td>
+                                                        <td class="text-center" id="price">₹<%= receipt.price %></td>
+                                                    </tr>
+                                                <% }); %>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Sub Total:</th>
+                                                    <th class="text-center" id="subtotal">₹</th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">20% VAT:</th>
+                                                    <th class="text-center" id="vat">₹</th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Credit:</th>
+                                                    <th class="text-center" id="credit">₹00.00 </th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Total:</th>
+                                                    <th class="text-center" id="total">₹</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="invoice-footer text-center mt25">
+                                    <p>Generated on <%= new Date().toLocaleDateString() %> <a href="#" class="btn btn-default ml15"><i class="fa fa-print mr5"></i> Print</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all price elements
+            let prices = document.querySelectorAll('#price');
+            let quantities = document.querySelectorAll('#quantity');
+    
+            // Calculate subtotal
+            let subtotal = 0;
+            prices.forEach((priceElement, index) => {
+                let price = parseFloat(priceElement.textContent.replace('₹', ''));
+                let quantity = parseInt(quantities[index].textContent);
+                subtotal += price * quantity;
+            });
+    
+            // Calculate VAT (20%)
+            let vat = subtotal * 0.20;
+    
+            // Calculate total
+            let total = subtotal + vat;
+    
+            // Update the DOM
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('vat').textContent = `₹${vat.toFixed(2)}`;
+            document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+        });
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

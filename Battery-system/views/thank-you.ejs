@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            background-color: #28a745;
+            justify-content: center;
+        }
+        .modal-title {
+            font-weight: bold;
+        }
+        .modal-body img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 100px; /* Set the desired width */
+            height: auto; /* Maintain the aspect ratio */
+        }
+        .modal-footer {
+            justify-content: space-between;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        .brand-text {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .brand-battery {
+            color: #ffc107; /* Warm color */
+            background-color: #000; /* Black background */
+        }
+        .brand-com {
+            color: #000; /* Black color */
+            background-color: #ffc107; /* Warm background */
+        }
+    </style>
+</head>
+<body>
+    <div class="modal fade show" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-white">
+                    <h5 class="modal-title">Thank You for Your Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <div>
+                        <span class="brand-text brand-battery">Battery</span><span class="brand-text brand-com">.Com</span>
+                    </div>
+                    <img src="/img/thanku.jpg" alt="Logo" class="mb-3">
+                    <p class="lead">Your order has been placed successfully!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/receipt" class="btn btn-success">Take receipt</a>
+                    <a href="/" class="btn btn-success">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.modal').modal('show');
+        });
+    </script>
+</body>
+</html>
